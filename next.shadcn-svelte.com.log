@@ -1,0 +1,83 @@
+↪ npx sv@0.6.18 create frontend
+┌  Welcome to the Svelte CLI! (v0.6.18)
+│
+◇  Which template would you like?
+│  SvelteKit minimal
+│
+◇  Add type checking with Typescript?
+│  Yes, using Typescript syntax
+│
+◆  Project created
+│
+◇  What would you like to add to your project? (use arrow keys / space bar)
+│  prettier, eslint, drizzle, lucia
+│
+◇  drizzle: Which database would you like to use?
+│  SQLite
+│
+◇  drizzle: Which SQLite client would you like to use?
+│  better-sqlite3
+│
+◇  lucia: Do you want to include a demo? (includes a login/register page)
+│  Yes
+│
+◇  Which package manager do you want to install dependencies with?
+│  npm
+│
+◆  Successfully setup add-ons
+│
+◆  Successfully installed dependencies
+│
+◇  Successfully formatted modified files
+│
+◇  Project next steps ─────────────────────────────────────────────────────╮
+│                                                                          │
+│  1: cd frontend                                                          │
+│  2: git init && git add -A && git commit -m "Initial commit" (optional)  │
+│  3: npm run dev -- --open                                                │
+│                                                                          │
+│  To close the dev server, hit Ctrl-C                                     │
+│                                                                          │
+│  Stuck? Visit us at https://svelte.dev/chat                              │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+│
+◇  Add-on next steps ──────────────────────────────────────────────────╮
+│                                                                      │
+│  drizzle:                                                            │
+│  - You will need to set DATABASE_URL in your production environment  │
+│  - Run npm run db:push to update your database schema                │
+│                                                                      │
+│  lucia:                                                              │
+│  - Run npm run db:push to update your database schema                │
+│  - Visit /demo/lucia route to view the demo                          │
+│                                                                      │
+├──────────────────────────────────────────────────────────────────────╯
+│
+└  You're all set!
+
+fredrik at yoga-fox in ~/P/P/double-lLMedger
+↪ cd frontend
+fredrik at yoga-fox in ~/P/P/d/frontend
+↪ npm run db:push
+
+> frontend@0.0.1 db:push
+> drizzle-kit push
+
+No config path provided, using default 'drizzle.config.ts'
+Reading config file '/home/fredrik/Projects/Python/double-lLMedger/frontend/drizzle.config.ts'
+┌   shadcn-svelte  v1.0.0-next.9
+│
+◇  Components to install:
+│  input
+│
+◇  Ready to install components and dependencies?
+│  Yes
+│
+◇  input installed at src/lib/components/ui/input
+│
+◇  Dependencies installed with npm
+│
+◇  Config file components.json updated
+│
+└  Success! Component installation completed.
