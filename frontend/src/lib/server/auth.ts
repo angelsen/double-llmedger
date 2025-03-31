@@ -10,20 +10,26 @@ const DAY_IN_MS = 1000 * 60 * 60 * 24;
 export const sessionCookieName = 'auth-session';
 
 export function generateSessionToken() {
-	const bytes = crypto.getRandomValues(new Uint8Array(18));
+	const bytes = crypto.getRandomValues(new Uint8Array(20));
 	const token = encodeBase64url(bytes);
 	return token;
 }
 
 export async function createSession(token: string, userId: string) {
-	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const session: table.Session = {
-		id: sessionId,
-		userId,
-		expiresAt: new Date(Date.now() + DAY_IN_MS * 30)
-	};
-	await db.insert(table.session).values(session);
-	return session;
+	try {
+		const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+		const session: table.Session = {
+			id: sessionId,
+			userId,
+			expiresAt: new Date(Date.now() + DAY_IN_MS * 30)
+		};
+		await db.insert(table.session).values(session);
+		console.log(`Session created successfully for user: ${userId}`);
+		return session;
+	} catch (error) {
+		console.error("Failed to create session:", error);
+		throw error; // Re-throw to allow proper error handling up the call stack
+	}
 }
 
 export async function validateSessionToken(token: string) {
@@ -67,15 +73,23 @@ export async function invalidateSession(sessionId: string) {
 	await db.delete(table.session).where(eq(table.session.id, sessionId));
 }
 
+export async function invalidateAllUserSessions(userId: string) {
+	await db.delete(table.session).where(eq(table.session.userId, userId));
+}
+
 export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: Date) {
 	event.cookies.set(sessionCookieName, token, {
 		expires: expiresAt,
-		path: '/'
+		path: '/',
+		httpOnly: true,
+		sameSite: 'lax'
 	});
 }
 
 export function deleteSessionTokenCookie(event: RequestEvent) {
 	event.cookies.delete(sessionCookieName, {
-		path: '/'
+		path: '/',
+		httpOnly: true,
+		sameSite: 'lax'
 	});
 }

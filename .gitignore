@@ -8,3 +8,17 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Environment variables
+.env
+**/.env
+!**/.env.example
+
+# DB
+/data
+*.db
+
+# Node.js
+node_modules/
+.svelte-kit/
+**/CLAUDE.local.md

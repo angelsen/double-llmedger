@@ -1,5 +1,6 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 
+// Auth tables
 export const user = sqliteTable('user', {
 	id: text('id').primaryKey(),
 	age: integer('age'),
@@ -15,6 +16,6 @@ export const session = sqliteTable('session', {
 	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
 });
 
+// Type exports
 export type Session = typeof session.$inferSelect;
-
 export type User = typeof user.$inferSelect;
