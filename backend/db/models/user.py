@@ -1,37 +1,48 @@
+"""
+User and session models for authentication.
+
+These models match the schema used by the frontend Lucia auth system,
+providing a compatible data layer for authentication services.
+"""
 from datetime import datetime, timedelta
 
 from db.database import Base
-from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
-# Match the existing schema used by Lucia auth
 class User(Base):
+    """User model matching the schema used by Lucia auth."""
     __tablename__ = "user"
 
-    id = Column(String, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True, nullable=False)
-    password_hash = Column(String, nullable=False)
-    age = Column(Integer, nullable=True)
+    id: Mapped[str] = mapped_column(String, primary_key=True, index=True)
+    username: Mapped[str] = mapped_column(
+        String, unique=True, index=True, nullable=False
+    )
+    password_hash: Mapped[str] = mapped_column(String, nullable=False)
+    age: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
-    # Relationship to sessions
-    sessions = relationship("Session", back_populates="user")
+    # Relationships
+    sessions: Mapped[list["Session"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
 
 
 class Session(Base):
+    """Session model matching the schema used by Lucia auth."""
     __tablename__ = "session"
 
-    id = Column(String, primary_key=True, index=True)
-    user_id = Column(String, ForeignKey("user.id"), nullable=False)
+    id: Mapped[str] = mapped_column(String, primary_key=True, index=True)
+    user_id: Mapped[str] = mapped_column(String, ForeignKey("user.id"), nullable=False)
     # Store as Integer timestamp to match Drizzle schema
-    expires_at = Column(Integer, nullable=False)
+    expires_at: Mapped[int] = mapped_column(Integer, nullable=False)
 
     # Relationship to user
-    user = relationship("User", back_populates="sessions")
+    user: Mapped[User] = relationship("User", back_populates="sessions")
 
     @property
-    def expires_at_datetime(self):
-        """Convert timestamp to datetime object"""
+    def expires_at_datetime(self) -> datetime:
+        """Convert timestamp to datetime object."""
         # The SQLite timestamp is stored as seconds since epoch by Drizzle ORM
         try:
             return datetime.fromtimestamp(self.expires_at)  # Already in seconds
@@ -42,8 +53,8 @@ class Session(Base):
             return datetime.now() + timedelta(days=30)
 
     @property
-    def is_expired(self):
-        """Check if session is expired"""
+    def is_expired(self) -> bool:
+        """Check if session is expired."""
         try:
             now = datetime.now()
             return now > self.expires_at_datetime

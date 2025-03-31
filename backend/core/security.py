@@ -1,5 +1,10 @@
+"""
+Security module for authentication and authorization.
+
+This module provides functions for user authentication, session management,
+and other security-related operations needed by the application.
+"""
 import logging
-from typing import Optional
 from urllib.parse import unquote
 
 from core.config import settings
@@ -14,10 +19,16 @@ from utils.crypto import sha256_hex
 logger = logging.getLogger(__name__)
 
 
-def validate_origin(request: Request):
+def validate_origin(request: Request) -> None:
     """
     Validate the Origin header for CSRF protection.
     This mirrors what SvelteKit does on the frontend.
+
+    Args:
+        request: The FastAPI request object
+
+    Raises:
+        HTTPException: If the CSRF check fails
     """
     # Only validate non-GET requests
     if request.method in ["POST", "PUT", "PATCH", "DELETE"]:
@@ -36,10 +47,23 @@ def validate_origin(request: Request):
 
 async def get_current_user(
     request: Request,
-    auth_session: Optional[str] = Cookie(None, alias="auth-session"),
+    auth_session: str | None = Cookie(None, alias="auth-session"),
     db: Session = Depends(get_db),
 ) -> AuthResponse:
-    """Verify session token and get current user"""
+    """
+    Verify session token and get current user.
+
+    Args:
+        request: The FastAPI request
+        auth_session: The session cookie
+        db: Database session
+
+    Returns:
+        The authenticated user
+
+    Raises:
+        HTTPException: If the session is invalid or the user doesn't exist
+    """
     # Validate Origin header for CSRF protection
     validate_origin(request)
 
@@ -83,8 +107,15 @@ async def get_current_user(
 
 def invalidate_all_user_sessions(user_id: str, db: Session) -> int:
     """
-    Invalidate all sessions for a user
-    Note: In read-only mode, this is a stub that returns 0
+    Invalidate all sessions for a user.
+    Note: In read-only mode, this is a stub that returns 0.
+
+    Args:
+        user_id: The ID of the user
+        db: Database session
+
+    Returns:
+        Number of invalidated sessions
     """
     # The frontend handles session management
     return 0

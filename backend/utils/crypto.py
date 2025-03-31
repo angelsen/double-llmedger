@@ -1,4 +1,14 @@
+"""
+Cryptographic utility functions.
+
+This module provides functions for hashing, encryption, and other
+cryptographic operations needed by the application.
+"""
 import hashlib
+import logging
+
+# Configure logger
+logger = logging.getLogger(__name__)
 
 
 def sha256_hex(value: str) -> str:
