@@ -1,7 +1,56 @@
 [project]
 name = "double-llmedger"
 version = "0.1.0"
-description = "Add your description here"
+description = "A double-entry accounting system powered by AI"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "alembic>=1.15.2",
+    "fastapi[standard]>=0.115.12",
+    "httpx[http2]>=0.28.1",
+    "pydantic-settings>=2.8.1",
+    "sqlalchemy>=2.0.40",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.2",
+]
+
+[tool.ruff]
+# Line length matches Black's default
+line-length = 88
+
+# Exclude common directories
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "data",
+]
+
+# Target Python 3.13
+target-version = "py313"
+
+[tool.ruff.lint]
+# Enable Pyflakes (F), pycodestyle (E, W), import sorting (I),
+# upgrade suggestions (UP), unused code detection (F401)
+select = ["E", "F", "I", "W", "UP"]
+
+# Allow autofix for all enabled rules (when `--fix` is passed)
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.isort]
+known-first-party = ["backend"]
+
+[tool.ruff.format]
+# Use double quotes for strings
+quote-style = "double"
+# Indent with 4 spaces
+indent-style = "space"
+# Line ending with LF
+line-ending = "auto"
