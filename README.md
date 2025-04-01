@@ -16,7 +16,7 @@
 
 ## 🚀 Overview
 
-Double-LLMedger is an innovative financial transaction system that uses two distinct large language models to independently verify and validate each transaction, creating a cryptographically secure, tamper-resistant ledger with the benefits of blockchain technology without the environmental impact.
+Double-LLMedger combines traditional double-entry accounting with LLM capabilities, creating an "LLM-first" financial ledger system. The name is a wordplay - it's a traditional double ledger accounting solution designed from the ground up to leverage LLM capabilities throughout the entire stack, making it easier to integrate AI-powered features for transaction verification, analysis, and reporting.
 
 ### 📊 Dashboard Preview
 <div align="center">
