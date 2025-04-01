@@ -18,53 +18,10 @@
 
 Double-LLMedger is an innovative financial transaction system that uses two distinct large language models to independently verify and validate each transaction, creating a cryptographically secure, tamper-resistant ledger with the benefits of blockchain technology without the environmental impact.
 
-```mermaid
-flowchart TB
-    subgraph Client
-        UI[User Interface]
-        FV[Form Validation]
-        CS[Client State]
-    end
-    
-    subgraph Backend
-        API[API Layer]
-        BL[Business Logic]
-        DB[(Database)]
-        
-        subgraph "Dual LLM Verification"
-            LLM1[LLM Model 1]
-            LLM2[LLM Model 2]
-            CS1[Cryptographic\nSignature 1]
-            CS2[Cryptographic\nSignature 2]
-            CV[Consensus Verification]
-        end
-    end
-    
-    UI --> FV
-    FV --> API
-    API --> BL
-    BL --> LLM1
-    BL --> LLM2
-    LLM1 --> CS1
-    LLM2 --> CS2
-    CS1 --> CV
-    CS2 --> CV
-    CV --> DB
-    DB --> BL
-    BL --> API
-    API --> CS
-    CS --> UI
-    
-    classDef client fill:#f9f9f9,stroke:#333,stroke-width:1px
-    classDef backend fill:#e6f3ff,stroke:#333,stroke-width:1px
-    classDef llm fill:#ffe6e6,stroke:#333,stroke-width:1px
-    classDef database fill:#f0f0f0,stroke:#333,stroke-width:1px
-    
-    class UI,FV,CS client
-    class API,BL backend
-    class LLM1,LLM2,CS1,CS2,CV llm
-    class DB database
-```
+### 📊 Dashboard Preview
+<div align="center">
+<img src="docs/assets/dashboard.png" alt="Double-LLMedger Dashboard Screenshot" width="800">
+</div>
 
 ## ✨ Key Features
 
@@ -184,15 +141,6 @@ double-lLMedger/
 ├── CONVENTIONS.md            # Code conventions
 └── README.md                 # This file
 ```
-
-## 📊 Dashboard
-
-The dashboard provides a comprehensive view of financial data with interactive charts and real-time transaction monitoring.
-
-<div align="center">
-<img src="docs/assets/dashboard.png" alt="Double-LLMedger Dashboard Screenshot" width="800">
-</div>
-
 ## 🔒 Security Features
 
 - Session-based authentication with secure HttpOnly cookies
